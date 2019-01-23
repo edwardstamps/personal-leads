@@ -17,6 +17,7 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Text, View, ScrollView, Image, Linking, TextInput } from 'react-native'
 import client, { Avatar, translate as t } from '@doubledutch/rn-client'
+import Contacts from 'react-native-contacts';
 import { LabeledTextInput } from './dd-ui'
 import { envelopeIcon, linkedinIcon, telephoneIcon, twitterIcon } from './icon'
 
@@ -358,6 +359,24 @@ export class CardListView extends Component {
     )
   }
 
+  exportContact = () => {
+
+    const newPerson = {
+      emailAddresses: [{
+        label: "work",
+        email: this.props.email || "",
+      }],
+      familyName: this.props.lastName || "",
+      givenName: this.props.lastName || ""
+    }
+    
+    Contacts.openContactForm(newPerson, (err) => {
+      if (err) throw err;
+      // form is open
+    })
+
+  }
+
   render() {
     const { primaryColor } = this.props
     return (
@@ -369,10 +388,19 @@ export class CardListView extends Component {
           onPress={this.props.showCard}
         >
           <Avatar user={this.props.user} client={client} size={38} style={{ marginRight: 8 }} />
-          <View style={{ flexDirection: 'column', flex: 1 }}>
-            <Text style={{ fontWeight: '500', flexWrap: 'wrap', fontSize: 18, marginLeft: 2 }}>
-              {this.props.firstName} {this.props.lastName}
-            </Text>
+          <View style={{ flexDirection: 'column', flex: 1}}>
+            <View style={{flexDirection: "row"}}>
+              <Text style={{ fontWeight: '500', flexWrap: 'wrap', flex: 1, fontSize: 18, marginLeft: 2}}>
+                {this.props.firstName} {this.props.lastName}
+              </Text>
+              <TouchableOpacity
+                onPress={this.exportContact}
+              >
+                <Text style={{ fontSize: 14, flex: 1, color: this.props.primaryColor}}>
+                  Add Contact
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Text style={{ flexWrap: 'wrap', fontSize: 14, color: '#A8A8A8', marginLeft: 2 }}>
               {this.props.title}, {this.props.company}
             </Text>
