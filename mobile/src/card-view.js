@@ -281,11 +281,7 @@ export class EditCardView extends Component {
       this.state.firstName.trim().length === 0 ||
       this.state.lastName.trim().length === 0 ||
       !this.state.isChanged ||
-      this.state.mobile.match(/[a-z~`!#()$%\^&@*+=\-\[\]\\';,/{}|\\":<>\?]/i) ||
-      this.state.firstName.match(emojis) ||
-      this.state.lastName.match(emojis) ||
-      this.state.title.match(emojis) ||
-      this.state.company.match(emojis)
+      this.state.mobile.match(/[a-z~`!#()$%\^&@*+=\-\[\]\\';,/{}|\\":<>\?]/i)
     ) {
       return true
     }
